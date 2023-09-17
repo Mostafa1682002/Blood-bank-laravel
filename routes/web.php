@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\ArticaleController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\GovernorateController;
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +21,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
+});
+
+Auth::routes(['register' => false]);
+
+Route::group(['middleware' => "auth"], function () {
+    //Home
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    //Governorate
+    Route::resource('governorates', GovernorateController::class);
+    //City
+    Route::resource('cities', CityController::class);
+    //Categories
+    Route::resource('categories', CategoryController::class);
+    //Articales
+    Route::resource('articles', ArticaleController::class);
+    //Clients
+    Route::resource('clients', ClientController::class);
 });

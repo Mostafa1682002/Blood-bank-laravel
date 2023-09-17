@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Articale extends Model 
+class Articale extends Model
 {
 
     protected $table = 'articales';
     public $timestamps = true;
-    protected $fillable = array('title', 'image', 'content');
+    protected $fillable = array('title', 'category_id', 'image', 'content');
 
     public function clients()
     {
@@ -20,5 +20,4 @@ class Articale extends Model
     {
         return $this->belongsTo('App\Models\Category');
     }
-
 }

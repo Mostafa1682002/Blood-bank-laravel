@@ -11,25 +11,26 @@ use App\Models\Client;
 use App\Models\Contact;
 use App\Models\DonationRequest;
 use App\Models\Governorate;
+use App\Models\Notification;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class MainController extends Controller
 {
-    public function getProfile()
+    public function getProfile(Request $request)
     {
-        return apiResponse(200, 'sucees', auth()->guard('api')->user());
+        return apiResponse(200, 'sucees', $request->user());
     }
 
     //Update Profile
-    public function profile(Request $request)
+    public function updateProfile(Request $request)
     {
+        $client = $request->user();
         $validator = Validator::make($request->all(), [
-            'email' => "required|unique:clients,email," . auth()->guard('api')->user()->id,
+            'email' => "required|unique:clients,email," . $client->id,
             'name' => "required|min:3",
-            'phone' => "required|regex:/01[0-2,5]{1}[0-9]{8}$/|unique:clients,email," . auth()->guard('api')->user()->id,
+            'phone' => "required|regex:/01[0-2,5]{1}[0-9]{8}$/|unique:clients,email," .  $client->id,
             'password' => "confirmed|min:5",
             'date_birth' => "required",
             'blood_type_id' => "required|exists:blood_types,id",
@@ -41,21 +42,17 @@ class MainController extends Controller
             return apiResponse(400, 'falid', $validator->errors());
         }
 
-
         if ($request->has('password')) {
             $request->merge(['password' => bcrypt($request->password)]);
-            Client::where('phone', $request->phone)->update($request->except('password_confirmation'));
-        } else {
-            Client::where('phone', $request->phone)->update($request->except('password', 'password_confirmation'));
         }
-
-        return apiResponse(200, 'تم تحديث البيانات بنجاح', auth()->guard('api')->user());
+        $client->update($request->except('password_confirmation'));
+        return apiResponse(200, 'تم تحديث البيانات بنجاح', $client);
     }
 
     //Notifications Settings
-    public function dataNotificationSettings()
+    public function dataNotificationSettings(Request $request)
     {
-        $client = Client::find(auth()->guard('api')->user()->id);
+        $client = $request->user();
         $governorates = $client->governorates;
         $bloodTypes = $client->bloodTypes;
         return apiResponse(200, 'success', [
@@ -64,9 +61,9 @@ class MainController extends Controller
         ]);
     }
 
-    public function notificationSettings(Request $request)
+    public function updateNotificationSettings(Request $request)
     {
-        $client = Client::find(auth()->guard('api')->user()->id);
+        $client = $request->user();
         $validator = Validator::make($request->all(), [
             'blood_types_id' => "required|exists:blood_types,id",
             "governorates_id" => "required|exists:governorates,id"
@@ -74,8 +71,8 @@ class MainController extends Controller
         if ($validator->fails()) {
             return apiResponse(401, 'failed', $validator->errors());
         }
-        $client->governorates()->syncWithoutDetaching($request->governorates_id);
-        $client->bloodTypes()->syncWithoutDetaching($request->blood_types_id);
+        $client->governorates()->sync($request->governorates_id);
+        $client->bloodTypes()->sync($request->blood_types_id);
         return apiResponse(200, 'تم تحديث البيانات');
     }
 
@@ -110,7 +107,7 @@ class MainController extends Controller
     //Settings
     public function settings()
     {
-        $settings = Setting::get();
+        $settings = Setting::first();
         return apiResponse(200, 'success', $settings);
     }
 
@@ -125,44 +122,56 @@ class MainController extends Controller
         if ($validator->fails()) {
             return apiResponse(401, $validator->errors());
         }
-        $request->merge(['client_id' => auth()->guard('api')->user()->id]);
-        Contact::create($request->all());
+        $request->user()->contacts()->create($request->all());
         return apiResponse(200, 'تم ارسال الرساله لنجاح');
     }
 
 
     //Articales
-    public function articales(Request $request)
+    public function articles(Request $request)
     {
         $articales = Articale::where(function ($query) use ($request) {
+            //single res. move single post to a new method
             if ($request->has('id')) {
                 $query->where('id', $request->id);
             }
-        })->get();
+        })
+            //filter by category
+            ->Where(function ($query) use ($request) {
+                if ($request->has('category_id')) {
+                    $query->where('category_id', 'like', $request->category_id);
+                }
+            })
+            // filter by keyword
+            ->Where(function ($query) use ($request) {
+                if ($request->has('keyword')) {
+                    $query->where('title', 'like', $request->keyword);
+                }
+            })
+            ->paginate(10);
         return apiResponse(200, 'succes', $articales);
     }
 
 
     //ListFavorites
-    public function listFavourites()
+    public function listFavourites(Request $request)
     {
-        $client = Client::find(auth()->guard('api')->user()->id);
-        $list = $client->articales;
-        return apiResponse(200, 'success', $list);
+        $posts = $request->user()->articales()->paginate();
+        return apiResponse(200, 'success', $posts);
     }
 
 
     //Toggle Requests
     public function toggleFavourite(Request $request)
     {
-        $client = Client::find(auth()->guard('api')->user()->id);
+        $client = $request->user();
         $client->articales()->toggle($request->articale_id);
         return apiResponse(200, 'success');
     }
 
 
     //Donation Requests
-    public function donationRequest(Request $request)
+    public function createDonationRequest(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => "required",
@@ -179,9 +188,25 @@ class MainController extends Controller
         if ($validator->fails()) {
             return apiResponse(401, 'failed', $validator->errors());
         }
+        // client->relation->create()
+        // $request->merge(['client_id' => auth()->guard('api')->user()->id]);
+        // $donation = DonationRequest::create($request->all());
+        $request->user()->donationRequests()->create($request->all());
+        //Latest Donation
+        $donation = DonationRequest::latest()->first();
+        //Clients Id
+        $clients_id = $donation->city->governorate->clients()
+            ->where('blood_type_id', $request->blood_type_id)->get()->pluck('id');
+        if (count($clients_id)) {
+            // Add Notification
+            $notification = Notification::create([
+                'title' => "حاله جديده",
+                'content' => "ننننننننننننن",
+                'donation_request_id' => $donation->id
+            ]);
+            $notification->clients()->attach($clients_id);
+        }
 
-        $request->merge(['client_id' => auth()->guard('api')->user()->id]);
-        $donation = DonationRequest::create($request->all());
         return apiResponse(200, 'تم انشاء طلب التبرع', $donation);
     }
 
@@ -193,7 +218,20 @@ class MainController extends Controller
             if ($request->has('donation_id')) {
                 $query->where('id', $request->donation_id);
             }
-        })->get();
+        })
+            // filter by blood_type_id
+            ->where(function ($query) use ($request) {
+                if ($request->has('blood_type_id')) {
+                    $query->where('blood_type_id', 'like', $request->blood_type_id);
+                }
+            })
+            //Filter By City
+            ->where(function ($query) use ($request) {
+                if ($request->has('city_id')) {
+                    $query->where('city_id', $request->city_id);
+                }
+            })
+            ->paginate();
         return apiResponse(200, "success", $donations);
     }
 }

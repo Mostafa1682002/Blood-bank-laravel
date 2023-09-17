@@ -4,12 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ClientNotification extends Model 
+class ClientNotification extends Model
 {
 
     protected $table = 'client_notification';
     public $timestamps = true;
-    protected $fillable = array('client_id', 'is_read');
-    protected $visible = array('notification_id');
-
+    protected $fillable = array('notification_id', 'client_id', 'is_read');
 }

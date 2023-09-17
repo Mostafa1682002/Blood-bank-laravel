@@ -28,6 +28,6 @@ class DonationRequest extends Model
 
     public function notification()
     {
-        return $this->hasOne('App\Models\Notifications');
+        return $this->hasOne('App\Models\Notification');
     }
 }

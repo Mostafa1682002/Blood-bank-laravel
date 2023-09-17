@@ -10,7 +10,7 @@ class Client extends Authenticatable
 
     protected $table = 'clients';
     public $timestamps = true;
-    protected $fillable = array('email', 'name', 'phone', 'password', 'date_birth', 'blood_type_id', 'last_date_donation', 'city_id', 'pin_code', 'api_token');
+    protected $fillable = array('email', 'name', 'phone', 'password', 'date_birth', 'active', 'blood_type_id', 'last_date_donation', 'city_id', 'pin_code', 'api_token');
     protected $hidden = array('password', 'api_token');
 
     public function articales()
@@ -40,7 +40,7 @@ class Client extends Authenticatable
 
     public function notifications()
     {
-        return $this->belongsToMany('App\Models\Notifications');
+        return $this->belongsToMany('App\Models\Notification');
     }
 
     public function bloodTypes()

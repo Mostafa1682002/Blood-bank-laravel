@@ -27,36 +27,31 @@ Route::group(['prefix' => "v1"], function () {
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
     Route::post('new-password', [AuthController::class, 'newPassword']);
 
-
-
     Route::get('governorates', [MainController::class, 'governorates']);
     Route::get('cities', [MainController::class, 'cities']);
     Route::get('blood-types', [MainController::class, 'bloodTypes']);
 
-
     Route::group(['middleware' => "auth:api"], function () {
         //Articales
-        Route::get('articales', [MainController::class, 'articales']);
+        Route::get('articles', [MainController::class, 'articles']);
         //Profile
         Route::get('profile', [MainController::class, 'getProfile']);
-        Route::post('update-profile', [MainController::class, 'profile']);
+        Route::post('update-profile', [MainController::class, 'updateProfile']);
         // Notification Settings
         Route::get('notification-settings', [MainController::class, 'dataNotificationSettings']);
-        Route::post('notification-settings', [MainController::class, 'notificationSettings']);
+        Route::post('update-notification-settings', [MainController::class, 'updateNotificationSettings']);
         //Contact
         Route::post('contact', [MainController::class, 'contact']);
         //Categories
         Route::get('categories', [MainController::class, 'categories']);
         //settings
         Route::get('settings', [MainController::class, 'settings']);
-        //Articales
-        Route::get('articales', [MainController::class, 'articales']);
         // List favourites
         Route::get('list-favourites', [MainController::class, 'listFavourites']);
         //Toggle favourite
         Route::post('toggle-favourite', [MainController::class, 'toggleFavourite']);
         //Donation Request
         Route::get('donation-requests', [MainController::class, 'getDonationRequests']);
-        Route::post('donation-request', [MainController::class, 'donationRequest']);
+        Route::post('create-donation-request', [MainController::class, 'createDonationRequest']);
     });
 });

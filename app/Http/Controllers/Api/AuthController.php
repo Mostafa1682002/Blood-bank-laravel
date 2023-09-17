@@ -65,7 +65,7 @@ class AuthController extends Controller
                 return apiResponse(401, 'fails', $validator->errors());
             }
 
-            $client = Client::where('phone', $request->phone)->first();
+            $client = Client::where('phone', $request->phone)->where('active', 1)->first();
             if ($client) {
                 if (Hash::check($request->password, $client->password)) {
                     return apiResponse(200, 'تم تسجيل الدخول بنجاح', [
@@ -129,10 +129,14 @@ class AuthController extends Controller
             }
 
             $client = Client::where('pin_code', $request->pin_code)->first();
-            $client->password = bcrypt($request->new_password);
-            $client->save();
 
-            return apiResponse(201, 'تم استعادة كلمة المرور بنجاح');
+            if ($client) {
+                $client->password = bcrypt($request->new_password);
+                $client->save();
+                return apiResponse(201, 'تم استعادة كلمة المرور بنجاح');
+            }
+
+            return apiResponse(401, 'الكود غير صحيح');
         } catch (Exception $e) {
             return apiResponse(401, $e->getMessage());
         }
