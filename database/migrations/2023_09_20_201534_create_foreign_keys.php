@@ -93,6 +93,11 @@ class CreateForeignKeys extends Migration {
 						->onDelete('cascade')
 						->onUpdate('cascade');
 		});
+		Schema::table('tokens', function(Blueprint $table) {
+			$table->foreign('client_id')->references('id')->on('clients')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+		});
 	}
 
 	public function down()
@@ -147,6 +152,9 @@ class CreateForeignKeys extends Migration {
 		});
 		Schema::table('client_governorate', function(Blueprint $table) {
 			$table->dropForeign('client_governorate_governorate_id_foreign');
+		});
+		Schema::table('tokens', function(Blueprint $table) {
+			$table->dropForeign('tokens_client_id_foreign');
 		});
 	}
 }

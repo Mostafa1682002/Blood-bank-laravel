@@ -1,0 +1,91 @@
+@extends('layouts.master')
+@section('title')
+    تعديل بيانات رتبه
+@endsection
+@section('css')
+@endsection
+@section('page-header')
+    <!-- breadcrumb -->
+    <div class="page-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mb-0">تعديل بيانات رتبه</h4>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="default-color">الرئيسيه</a></li>
+                    <li class="breadcrumb-item active">تعديل بيانات رتبه</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb -->
+@endsection
+
+
+
+
+@section('content')
+    <!-- row -->
+    <div class="row">
+        <div class="col-xl-12 mb-30">
+            <div class="card card-statistics h-100">
+                <div class="card-body">
+                    @if (session('success'))
+                        <div class="alert  alert-success" role="alert">
+                            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="alert  alert-danger" role="alert">
+                            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            لم يتم حفظ البيانات
+                        </div>
+                        @foreach ($errors->all() as $error)
+                            <div class="alert  alert-danger" role="alert">
+                                <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ $error }}
+                            </div>
+                        @endforeach
+                    @endif
+                    <form action="{{ route('roles.update', $role->id) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="title">اسم الرتبه</label>
+                                <input type="text" name="name" class="form-control" value="{{ $role->name }}">
+                            </div>
+                        </div>
+                        <br>
+                        <label for="permission">الصلاحيات : </label><br>
+                        <div class="form-row">
+                            {{-- in_array($value->id, $rolePermissions) --}}
+                            @foreach ($permissions as $permission)
+                                <div class="col col-md-3">
+                                    <input type="checkbox" name="permission[]" id="permission{{ $loop->index }}"
+                                        class="" value="{{ $permission->id }}"
+                                        {{ in_array($permission->id, $rolePermissions) ? 'checked' : '4654' }}>
+                                    <label for="permission{{ $loop->index }}">{{ $permission->ar_name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">تحديث</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- row closed -->
+@endsection
+@section('js')
+@endsection

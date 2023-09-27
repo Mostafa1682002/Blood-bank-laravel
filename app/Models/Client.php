@@ -52,4 +52,11 @@ class Client extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Governorate');
     }
+
+
+
+    public function tokens()
+    {
+        return $this->hasMany('App\Models\Token');
+    }
 }

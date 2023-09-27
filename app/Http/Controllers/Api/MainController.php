@@ -13,6 +13,7 @@ use App\Models\DonationRequest;
 use App\Models\Governorate;
 use App\Models\Notification;
 use App\Models\Setting;
+use App\Models\Token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -137,13 +138,13 @@ class MainController extends Controller
             }
         })
             //filter by category
-            ->Where(function ($query) use ($request) {
+            ->OrWhere(function ($query) use ($request) {
                 if ($request->has('category_id')) {
                     $query->where('category_id', 'like', $request->category_id);
                 }
             })
             // filter by keyword
-            ->Where(function ($query) use ($request) {
+            ->OrWhere(function ($query) use ($request) {
                 if ($request->has('keyword')) {
                     $query->where('title', 'like', $request->keyword);
                 }
@@ -199,15 +200,30 @@ class MainController extends Controller
             ->where('blood_type_id', $request->blood_type_id)->get()->pluck('id');
         if (count($clients_id)) {
             // Add Notification
-            $notification = Notification::create([
+            // $notification = Notification::create([
+            //     'title' => "حاله جديده",
+            //     'content' => "ننننننننننننن",
+            //     'donation_request_id' => $donation->id
+            // ]);
+            $notification = $donation->notification()->create([
                 'title' => "حاله جديده",
-                'content' => "ننننننننننننن",
-                'donation_request_id' => $donation->id
+                'content' => "مطلوب متبرع للحاله $donation->name",
             ]);
             $notification->clients()->attach($clients_id);
+
+            //tokens
+            $tokens = Token::whereIn('client_id', $clients_id)->where('token', '!=', null)->pluck('token')->toArray();
+            if (count($tokens)) {
+                $title = $notification->title;
+                $body = $notification->content;
+                $data = [
+                    'donation_request_id' => $donation->id
+                ];
+                $send = notifyByFirebase($title, $body, $tokens, $data);
+            }
         }
 
-        return apiResponse(200, 'تم انشاء طلب التبرع', $donation);
+        return apiResponse(200, 'تم انشاء طلب التبرع', ['donation' => $donation, 'send' => $send]);
     }
 
 
@@ -220,13 +236,13 @@ class MainController extends Controller
             }
         })
             // filter by blood_type_id
-            ->where(function ($query) use ($request) {
+            ->OrWhere(function ($query) use ($request) {
                 if ($request->has('blood_type_id')) {
                     $query->where('blood_type_id', 'like', $request->blood_type_id);
                 }
             })
             //Filter By City
-            ->where(function ($query) use ($request) {
+            ->OrWhere(function ($query) use ($request) {
                 if ($request->has('city_id')) {
                     $query->where('city_id', $request->city_id);
                 }

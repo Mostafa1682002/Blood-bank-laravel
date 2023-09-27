@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mail\Resetpassword;
+use App\Models\Token;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -140,5 +141,37 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return apiResponse(401, $e->getMessage());
         }
+    }
+
+
+
+
+    public function registerToken(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'token' => "required",
+            'type' => "required|in:ios,android"
+        ]);
+
+        if ($validator->fails()) {
+            return apiResponse(401, $validator->errors());
+        }
+
+        Token::where('token', $request->token)->delete();
+        $request->user()->tokens()->create($request->all());
+        return apiResponse(201, 'تم التسجيل بنجاح');
+    }
+
+    public function removeToken(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'token' => "required",
+        ]);
+
+        if ($validator->fails()) {
+            return apiResponse(401, $validator->errors());
+        }
+        Token::where('token', $request->token)->delete();
+        return apiResponse(201, 'تم الحذف بنجاح');
     }
 }

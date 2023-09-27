@@ -53,5 +53,9 @@ Route::group(['prefix' => "v1"], function () {
         //Donation Request
         Route::get('donation-requests', [MainController::class, 'getDonationRequests']);
         Route::post('create-donation-request', [MainController::class, 'createDonationRequest']);
+        //Register Token
+        Route::post('register-token', [AuthController::class, 'registerToken']);
+        //ٌRemove Token
+        Route::post('remove-token', [AuthController::class, 'removeToken']);
     });
 });
