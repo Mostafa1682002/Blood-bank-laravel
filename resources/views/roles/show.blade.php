@@ -33,17 +33,21 @@
                 <div class="card-body">
                     <div class="form-row">
                         <div class="col">
-                            <h3 for="title"> الرتبه :
+                            <h3 for="title"> اسم الرتبه :
                                 <span class="text-danger">{{ $role->name }}</span>
                             </h3>
                         </div>
                     </div>
                     <br><br>
-                    <strong>الصلاحيات : </strong>
+                    <div>
+                        <h3>
+                            الصلاحيات :
+                        </h3>
+                    </div>
                     <div class="form-row">
                         @if (!empty($rolePermissions))
                             @foreach ($rolePermissions as $permission)
-                                <div class="col">
+                                <div class="col col-md-3">
                                     <p>{{ $permission->ar_name }}</p>
                                 </div>
                             @endforeach

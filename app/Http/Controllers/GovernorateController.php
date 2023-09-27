@@ -9,7 +9,7 @@ class GovernorateController extends Controller
 {
     public function index()
     {
-        $governorates = Governorate::all();
+        $governorates = Governorate::paginate(20);
         return view('Governorates.index', compact('governorates'));
     }
 

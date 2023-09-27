@@ -25,6 +25,7 @@
 
 
 
+
 @section('content')
     <!-- row -->
     <div class="row">
@@ -65,13 +66,22 @@
                             </div>
                         </div>
                         <br>
-                        <label for="permission">الصلاحيات : </label><br>
+                        <div>
+                            <h3>
+                                الصلاحيات :
+                            </h3>
+                        </div>
+                        <div>
+                            <h5 class="text-primary">
+                                <input type="checkbox" id="select_all">
+                                تحديد الكل
+                            </h5>
+                        </div>
                         <div class="form-row">
-                            {{-- in_array($value->id, $rolePermissions) --}}
                             @foreach ($permissions as $permission)
                                 <div class="col col-md-3">
                                     <input type="checkbox" name="permission[]" id="permission{{ $loop->index }}"
-                                        class="" value="{{ $permission->id }}"
+                                        class="checkbox" value="{{ $permission->id }}"
                                         {{ in_array($permission->id, $rolePermissions) ? 'checked' : '4654' }}>
                                     <label for="permission{{ $loop->index }}">{{ $permission->ar_name }}</label>
                                 </div>
@@ -88,4 +98,26 @@
     <!-- row closed -->
 @endsection
 @section('js')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#select_all').on('click', function() {
+                if (this.checked) {
+                    $('.checkbox').each(function() {
+                        this.checked = true;
+                    });
+                } else {
+                    $('.checkbox').each(function() {
+                        this.checked = false;
+                    });
+                }
+            });
+            $('.checkbox').on('click', function() {
+                if ($('.checkbox:checked').length == $('.checkbox').length) {
+                    $('#select_all').prop('checked', true);
+                } else {
+                    $('#select_all').prop('checked', false);
+                }
+            });
+        });
+    </script>
 @endsection

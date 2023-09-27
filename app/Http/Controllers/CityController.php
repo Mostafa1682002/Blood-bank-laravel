@@ -12,7 +12,7 @@ class CityController extends Controller
     public function index()
     {
         $governorates = Governorate::all();
-        $cities = City::all();
+        $cities = City::paginate(20);
         return view('Cities.index', compact('governorates', 'cities'));
     }
 

@@ -15,7 +15,7 @@ class ArticaleController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $articales = Articale::paginate(2);
+        $articales = Articale::paginate(20);
         return view('Articles.index', compact('categories', 'articales'));
     }
 

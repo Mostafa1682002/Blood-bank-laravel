@@ -7,11 +7,8 @@ use App\Models\Articale;
 use App\Models\BloodType;
 use App\Models\Category;
 use App\Models\City;
-use App\Models\Client;
-use App\Models\Contact;
 use App\Models\DonationRequest;
 use App\Models\Governorate;
-use App\Models\Notification;
 use App\Models\Setting;
 use App\Models\Token;
 use Illuminate\Http\Request;
@@ -149,7 +146,7 @@ class MainController extends Controller
                     $query->where('title', 'like', $request->keyword);
                 }
             })
-            ->paginate(10);
+            ->paginate(20);
         return apiResponse(200, 'succes', $articales);
     }
 
@@ -157,7 +154,7 @@ class MainController extends Controller
     //ListFavorites
     public function listFavourites(Request $request)
     {
-        $posts = $request->user()->articales()->paginate();
+        $posts = $request->user()->articales()->paginate(20);
         return apiResponse(200, 'success', $posts);
     }
 
@@ -190,8 +187,6 @@ class MainController extends Controller
             return apiResponse(401, 'failed', $validator->errors());
         }
         // client->relation->create()
-        // $request->merge(['client_id' => auth()->guard('api')->user()->id]);
-        // $donation = DonationRequest::create($request->all());
         $request->user()->donationRequests()->create($request->all());
         //Latest Donation
         $donation = DonationRequest::latest()->first();
@@ -199,18 +194,11 @@ class MainController extends Controller
         $clients_id = $donation->city->governorate->clients()
             ->where('blood_type_id', $request->blood_type_id)->get()->pluck('id');
         if (count($clients_id)) {
-            // Add Notification
-            // $notification = Notification::create([
-            //     'title' => "حاله جديده",
-            //     'content' => "ننننننننننننن",
-            //     'donation_request_id' => $donation->id
-            // ]);
             $notification = $donation->notification()->create([
                 'title' => "حاله جديده",
                 'content' => "مطلوب متبرع للحاله $donation->name",
             ]);
             $notification->clients()->attach($clients_id);
-
             //tokens
             $tokens = Token::whereIn('client_id', $clients_id)->where('token', '!=', null)->pluck('token')->toArray();
             if (count($tokens)) {
@@ -219,11 +207,10 @@ class MainController extends Controller
                 $data = [
                     'donation_request_id' => $donation->id
                 ];
-                $send = notifyByFirebase($title, $body, $tokens, $data);
+                notifyByFirebase($title, $body, $tokens, $data);
             }
         }
-
-        return apiResponse(200, 'تم انشاء طلب التبرع', ['donation' => $donation, 'send' => $send]);
+        return apiResponse(200, 'تم انشاء طلب التبرع', $donation);
     }
 
 
