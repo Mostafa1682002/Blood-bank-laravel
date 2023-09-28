@@ -29,7 +29,7 @@ Route::get('/', function () {
     return view('auth.login');
 })->middleware('guest');
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::group(['middleware' => ["auth", 'auto_check_premission']], function () {
     //Home

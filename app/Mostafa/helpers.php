@@ -12,7 +12,12 @@ function apiResponse($status, $message, $data = null)
 }
 
 
-
+function checkActive($route)
+{
+    if (request()->route()->getName() == $route) {
+        return 'active';
+    }
+}
 
 
 function notifyByFirebase($title, $body, $tokens, $data = [])        // paramete 5 =>>>> $type
