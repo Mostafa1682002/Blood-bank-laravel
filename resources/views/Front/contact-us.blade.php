@@ -26,9 +26,9 @@
                             </div>
                             <div class="details">
                                 <ul>
-                                    <li><span>الجوال:</span> 124123412312</li>
+                                    <li><span>الجوال : </span>{{ $settings->phone }}</li>
                                     <li><span>فاكس:</span> 234234234</li>
-                                    <li><span>البريد الإلكترونى:</span> name@name.com</li>
+                                    <li><span>البريد الإلكترونى : </span>{{ $settings->email }}</li>
                                 </ul>
                             </div>
                             <div class="social">
@@ -64,7 +64,8 @@
                             <h4>تواصل معنا</h4>
                         </div>
                         <div class="fields">
-                            <form>
+                            <form method="POST">
+                                @csrf
                                 <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="الإسم"
                                     name="name">
                                 <input type="email" class="form-control" id="exampleFormControlInput1"
@@ -73,7 +74,7 @@
                                     placeholder="الجوال" name="phone">
                                 <input type="text" class="form-control" id="exampleFormControlInput1"
                                     placeholder="عنوان الرسالة" name="title">
-                                <textarea placeholder="نص الرسالة" class="form-control" id="exampleFormControlTextarea1" rows="3" name="text"></textarea>
+                                <textarea placeholder="نص الرسالة" class="form-control" id="exampleFormControlTextarea1" rows="3" name="message"></textarea>
                                 <button type="submit">ارسال</button>
                             </form>
                         </div>

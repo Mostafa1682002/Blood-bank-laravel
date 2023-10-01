@@ -16,13 +16,35 @@
                     </ol>
                 </nav>
             </div>
+            <br>
+            @if (session('success'))
+                <div class="alert  alert-success" role="alert">
+                    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p class="text-success text-center">{{ session('success') }}</p>
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="alert  alert-danger" role="alert">
+                    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p class="text-danger text-center"> لم يتم حفظ البيانات</p>
+                </div>
+                @foreach ($errors->all() as $error)
+                    <p class="text-danger text-center">{{ $error }}</p>
+                @endforeach
+            @endif
             <div class="account-form">
-                <form>
+                <form action="{{ route('client.create_donation_request') }}" method="POST">
+                    @csrf
                     <input type="text" name="name" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="الإسم" value="{{ old('name') }}">
 
                     <input type="number" name="age" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="العمر" value="{{ old('age') }}">
+
                     <select class="form-control" id="blood_type_id" name="blood_type_id">
                         <option selected disabled hidden value="">فصيلة الدم</option>
                         @foreach ($blood_types->all() as $blood_type)
@@ -53,6 +75,13 @@
                     <input type="text" name="phone" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="رقم الهاتف" value="{{ old('phone') }}">
                     <textarea placeholder="ملاحظات" class="form-control" id="exampleFormControlTextarea1" rows="5" name="notes">{{ old('notes') }}</textarea>
+
+
+                    <input type="number" name="latitude" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="المستشفي" value="4444">
+                    <input type="number" name="longitude" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="المستشفي" value="4444">
+
                     <div class="create-btn">
                         <input type="submit" value="إنشاء">
                     </div>
@@ -60,4 +89,28 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $('select[name="governorate_id"]').on('change', function() {
+            var governorate_id = $(this).val();
+            if (governorate_id) {
+                $.ajax({
+                    url: "{{ route('client.get_cities', '') }}/" + governorate_id,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $('select[name="city_id"]').empty();
+                        $.each(data, function(key, value) {
+                            $('select[name="city_id"]').append(
+                                '<option value="' + value + '">' + key +
+                                '</option>');
+                        });
+                    },
+                });
+            } else {
+                console.log('AJAX load did not work');
+            }
+        });
+    </script>
 @endsection

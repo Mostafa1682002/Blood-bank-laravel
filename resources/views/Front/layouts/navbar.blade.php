@@ -19,63 +19,65 @@
                     </div>
                 </div>
 
-                <!-- not a member-->
                 <div class="col-lg-4">
-                    <div class="info" dir="ltr">
-                        <div class="phone">
-                            <i class="fas fa-phone-alt"></i>
-                            <p>{{ $settings->phone }}</p>
+                    @if (auth()->guard('front')->check())
+                        <!--I'm a member -->
+                        <div class="member">
+                            <p class="welcome">مرحباً بك</p>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ auth()->guard('front')->user()->name }}
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ route('client.index') }}">
+                                        <i class="fas fa-home"></i>
+                                        الرئيسية
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="far fa-user"></i>
+                                        معلوماتى
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="far fa-bell"></i>
+                                        اعدادات الاشعارات
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="far fa-heart"></i>
+                                        المفضلة
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="far fa-comments"></i>
+                                        ابلاغ
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('client.contact_us_form') }}">
+                                        <i class="fas fa-phone-alt"></i>
+                                        تواصل معنا
+                                    </a>
+                                    <form action="{{ route('client.logout') }}" method="post">
+                                        @csrf
+                                        <button class="dropdown-item" type="submit">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            تسجيل الخروج
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <div class="e-mail">
-                            <i class="far fa-envelope"></i>
-                            <p>{{ $settings->email }}</p>
-                        </div>
-                    </div>
-
-                    <!--I'm a member -->
-
-                    {{-- <div class="member">
-                    <p class="welcome">مرحباً بك</p>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            احمد محمد
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="index-1.html">
-                                <i class="fas fa-home"></i>
-                                الرئيسية
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="far fa-user"></i>
-                                معلوماتى
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="far fa-bell"></i>
-                                اعدادات الاشعارات
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="far fa-heart"></i>
-                                المفضلة
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="far fa-comments"></i>
-                                ابلاغ
-                            </a>
-                            <a class="dropdown-item" href="contact-us.html">
+                    @else
+                        <!-- not a member-->
+                        <div class="info" dir="ltr">
+                            <div class="phone">
                                 <i class="fas fa-phone-alt"></i>
-                                تواصل معنا
-                            </a>
-                            <a class="dropdown-item" href="index.html">
-                                <i class="fas fa-sign-out-alt"></i>
-                                تسجيل الخروج
-                            </a>
+                                <p>{{ $settings->phone }}</p>
+                            </div>
+                            <div class="e-mail">
+                                <i class="far fa-envelope"></i>
+                                <p>{{ $settings->email }}</p>
+                            </div>
                         </div>
-                    </div>
-                </div> --}}
-
-
+                    @endif
                 </div>
             </div>
         </div>
@@ -111,23 +113,25 @@
                             {{ checkActive('client.donation_requests') }}">
                             <a class="nav-link" href="{{ route('client.donation_requests') }}">طلبات التبرع</a>
                         </li>
-                        <li class="nav-item {{ checkActive('client.contact_us') }}">
-                            <a class="nav-link" href="{{ route('client.contact_us') }}">اتصل بنا</a>
+                        <li class="nav-item {{ checkActive('client.contact_us_form') }}">
+                            <a class="nav-link" href="{{ route('client.contact_us_form') }}">اتصل بنا</a>
                         </li>
                     </ul>
 
-                    <!--not a member-->
-                    {{-- <div class="accounts">
-                        <a href="{{ route('client.create_account') }}" class="create">إنشاء حساب جديد</a>
-                        <a href="{{ route('client.login') }}" class="signin">الدخول</a>
-                    </div> --}}
 
-                    <!--I'm a member-->
-
-                    <a href="{{ route('client.create_donation_request') }}" class="donate">
-                        <img src="{{ asset('assets/front/imgs/transfusion.svg') }}">
-                        <p>طلب تبرع</p>
-                    </a>
+                    @if (auth()->guard('front')->check())
+                        <!--I'm a member-->
+                        <a href="{{ route('client.create_donation_request_form') }}" class="donate">
+                            <img src="{{ asset('assets/front/imgs/transfusion.svg') }}">
+                            <p>طلب تبرع</p>
+                        </a>
+                    @else
+                        <!--not a member-->
+                        <div class="accounts">
+                            <a href="{{ route('client.create_account') }}" class="create">إنشاء حساب جديد</a>
+                            <a href="{{ route('client.login_form') }}" class="signin">الدخول</a>
+                        </div>
+                    @endif
 
 
                 </div>

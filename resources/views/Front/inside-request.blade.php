@@ -11,7 +11,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('client.index') }}">الرئيسية</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('client.donation_requests') }}">طلبات التبرع</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">طلب التبرع: احمد محمد</li>
+                        <li class="breadcrumb-item active" aria-current="page">طلب التبرع: {{ $donation->name }}</li>
                     </ol>
                 </nav>
             </div>
@@ -25,7 +25,7 @@
                                         <p>الإسم</p>
                                     </div>
                                     <div class="light">
-                                        <p>احمد محمد</p>
+                                        <p> {{ $donation->name }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -37,7 +37,7 @@
                                         <p>فصيلة الدم</p>
                                     </div>
                                     <div class="light">
-                                        <p dir="ltr">A+</p>
+                                        <p dir="ltr">{{ $donation->bloodType->name }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                         <p>العمر</p>
                                     </div>
                                     <div class="light">
-                                        <p>28 عام</p>
+                                        <p> {{ $donation->age }} عام</p>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                                         <p>عدد الأكياس المطلوبة</p>
                                     </div>
                                     <div class="light">
-                                        <p>3 أكياس</p>
+                                        <p> {{ $donation->num_bags }} أكياس</p>
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                                         <p>المشفى</p>
                                     </div>
                                     <div class="light">
-                                        <p>الخير الدولية</p>
+                                        <p>{{ $donation->hospital }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                                         <p>رقم الجوال</p>
                                     </div>
                                     <div class="light">
-                                        <p>0245487878</p>
+                                        <p>{{ $donation->phone }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                                         <p>عنوان المشفى</p>
                                     </div>
                                     <div class="special-light light">
-                                        <p>المنصورة- شارع عبد العزيز بجوار المرور المتفرع من الدولى</p>
+                                        <p>{{ $donation->address_hospital }}</p>
                                     </div>
                                 </div>
                             </div>

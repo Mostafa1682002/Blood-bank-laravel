@@ -66,7 +66,7 @@
     </div>
 
     <!--articles-->
-    <div class="articles">
+    <div class="articles" style="padding: 50px">
         <div class="container title">
             <div class="head-text">
                 <h2>المقالات</h2>
@@ -77,91 +77,24 @@
                 <div class="row">
                     <!-- Set up your HTML -->
                     <div class="owl-carousel articles-carousel">
-                        <div class="card">
-                            <div class="photo">
-                                <img src="{{ asset('assets/front/imgs/p2.jpg') }}" class="card-img-top" alt="...">
-                                <a href="article-details.html" class="click">المزيد</a>
+                        @foreach ($articles as $article)
+                            <div class="card">
+                                <div class="photo">
+                                    <img src="{{ $article->image }}" class="card-img-top" alt="...">
+                                    <a href="{{ route('client.article_details', $article->id) }}" class="click">المزيد</a>
+                                </div>
+                                <a href="{{ route('client.article_toggle', $article->id) }}"
+                                    class="favourite {{ in_array($article->id, $favorites) ? 'active' : '' }}">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $article->title }}</h5>
+                                    <p class="card-text">
+                                        {{ $article->content }}
+                                    </p>
+                                </div>
                             </div>
-                            <a href="#" class="favourite">
-                                <i class="far fa-heart"></i>
-                            </a>
-
-                            <div class="card-body">
-                                <h5 class="card-title">طريقة الوقاية من الأمراض</h5>
-                                <p class="card-text">
-                                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد
-                                    النص العربى،
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="photo">
-                                <img src="{{ asset('assets/front/imgs/p2.jpg') }}" class="card-img-top" alt="...">
-                                <a href="article-details.html" class="click">المزيد</a>
-                            </div>
-                            <a href="#" class="favourite">
-                                <i class="far fa-heart"></i>
-                            </a>
-
-                            <div class="card-body">
-                                <h5 class="card-title">طريقة الوقاية من الأمراض</h5>
-                                <p class="card-text">
-                                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد
-                                    النص العربى،
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="photo">
-                                <img src="{{ asset('assets/front/imgs/p2.jpg') }}" class="card-img-top" alt="...">
-                                <a href="article-details.html" class="click">المزيد</a>
-                            </div>
-                            <a href="#" class="favourite">
-                                <i class="far fa-heart"></i>
-                            </a>
-
-                            <div class="card-body">
-                                <h5 class="card-title">طريقة الوقاية من الأمراض</h5>
-                                <p class="card-text">
-                                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد
-                                    النص العربى،
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="photo">
-                                <img src="{{ asset('assets/front/imgs/p2.jpg') }}" class="card-img-top" alt="...">
-                                <a href="article-details.html" class="click">المزيد</a>
-                            </div>
-                            <a href="#" class="favourite">
-                                <i class="far fa-heart"></i>
-                            </a>
-
-                            <div class="card-body">
-                                <h5 class="card-title">طريقة الوقاية من الأمراض</h5>
-                                <p class="card-text">
-                                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد
-                                    النص العربى،
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="photo">
-                                <img src="{{ asset('assets/front/imgs/p2.jpg" class="card-img-top') }}" alt="...">
-                                <a href="article-details.html" class="click">المزيد</a>
-                            </div>
-                            <a href="#" class="favourite">
-                                <i class="far fa-heart"></i>
-                            </a>
-
-                            <div class="card-body">
-                                <h5 class="card-title">طريقة الوقاية من الأمراض</h5>
-                                <p class="card-text">
-                                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد
-                                    النص العربى،
-                                </p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -177,7 +110,7 @@
         </div>
         <div class="content">
             <div class="container">
-                <form class="row filter">
+                {{-- <form class="row filter">
                     <div class="col-md-5 blood">
                         <div class="form-group">
                             <div class="inside-select">
@@ -211,55 +144,24 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                </form>
+                </form> --}}
                 <div class="patients">
-                    <div class="details">
-                        <div class="blood-type">
-                            <h2 dir="ltr">B+</h2>
+                    @foreach ($donations as $donation)
+                        <div class="details">
+                            <div class="blood-type">
+                                <h2 dir="ltr">{{ $donation->bloodType->name }}</h2>
+                            </div>
+                            <ul>
+                                <li><span>اسم الحالة: </span>{{ $donation->name }}</li>
+                                <li><span>مستشفى : </span>{{ $donation->hospital }}</li>
+                                <li><span>المدينة: </span> {{ $donation->city->name }}</li>
+                            </ul>
+                            <a href="{{ route('client.inside_request', $donation->id) }}">التفاصيل</a>
                         </div>
-                        <ul>
-                            <li><span>اسم الحالة:</span> احمد محمد احمد</li>
-                            <li><span>مستشفى:</span> القصر العينى</li>
-                            <li><span>المدينة:</span> المنصورة</li>
-                        </ul>
-                        <a href="inside-request.html">التفاصيل</a>
-                    </div>
-                    <div class="details">
-                        <div class="blood-type">
-                            <h2 dir="ltr">A+</h2>
-                        </div>
-                        <ul>
-                            <li><span>اسم الحالة:</span> احمد محمد احمد</li>
-                            <li><span>مستشفى:</span> القصر العينى</li>
-                            <li><span>المدينة:</span> المنصورة</li>
-                        </ul>
-                        <a href="inside-request.html">التفاصيل</a>
-                    </div>
-                    <div class="details">
-                        <div class="blood-type">
-                            <h2 dir="ltr">AB+</h2>
-                        </div>
-                        <ul>
-                            <li><span>اسم الحالة:</span> احمد محمد احمد</li>
-                            <li><span>مستشفى:</span> القصر العينى</li>
-                            <li><span>المدينة:</span> المنصورة</li>
-                        </ul>
-                        <a href="inside-request.html">التفاصيل</a>
-                    </div>
-                    <div class="details">
-                        <div class="blood-type">
-                            <h2 dir="ltr">O-</h2>
-                        </div>
-                        <ul>
-                            <li><span>اسم الحالة:</span> احمد محمد احمد</li>
-                            <li><span>مستشفى:</span> القصر العينى</li>
-                            <li><span>المدينة:</span> المنصورة</li>
-                        </ul>
-                        <a href="inside-request.html">التفاصيل</a>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="more">
-                    <a href="donation-requests.html">المزيد</a>
+                    <a href="{{ route('client.donation_requests') }}">المزيد</a>
                 </div>
             </div>
         </div>

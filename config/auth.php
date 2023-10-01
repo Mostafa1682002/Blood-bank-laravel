@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'front' => [
+            'driver' => 'session',
+            'provider' => 'fronts',
+        ],
         'api' => [
             'driver' => 'token',
             'provider' => 'clients',
@@ -67,6 +71,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'fronts' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Client::class,
         ],
         'clients' => [
             'driver' => 'eloquent',

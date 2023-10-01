@@ -23,7 +23,8 @@
                             href="{{ route('client.donation_requests') }}" role="tab" aria-controls="settings">طلبات
                             التبرع</a>
                         <a class="list-group-item list-group-item-action" id="list-settings-list"
-                            href="{{ route('client.contact_us') }}" role="tab" aria-controls="settings">اتصل بنا</a>
+                            href="{{ route('client.contact_us_form') }}" role="tab" aria-controls="settings">اتصل
+                            بنا</a>
                     </div>
                 </div>
                 <div class="stores col-md-4">
@@ -52,7 +53,7 @@
                     </div>
                 </div>
                 <div class="rights col-md-8">
-                    <p>جميع الحقوق محفوظة لـ <span>بنك الدم</span> &copy; 2019</p>
+                    <p>جميع الحقوق محفوظة لـ <span>بنك الدم</span> &copy; {{ date('Y') }}</p>
                 </div>
             </div>
         </div>

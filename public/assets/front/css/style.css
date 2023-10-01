@@ -21,7 +21,6 @@ p {
 .head-text h2 {
     color: #a70f14;
     font-weight: 600;
-    border-bottom: 15px;
 }
 
 .form-control:focus {
@@ -613,7 +612,7 @@ p {
     z-index: 5;
 }
 .articles .view .articles-carousel .card .favourite i:hover,
-.articles .view .articles-carousel .card .favourite i.active {
+.articles .view .articles-carousel .card .favourite.active i {
     transition: 0.3s;
     background-color: red;
 }
@@ -702,7 +701,7 @@ p {
 /*requests*/
 
 .requests .head-text {
-    margin: 30px auto;
+    margin: auto;
     display: block;
     width: 170px;
     text-align: center;

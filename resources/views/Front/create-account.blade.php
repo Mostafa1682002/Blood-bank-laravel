@@ -17,7 +17,15 @@
                 </nav>
             </div>
             <div class="account-form">
-                <form>
+                @if ($errors->any())
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+                <form action="{{ route('client.register') }}" method="POST">
+                    @csrf
                     <input type="text" name="name" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="الإسم" value="{{ old('name') }}">
                     <input type="email" name="email" class="form-control" id="exampleInputEmail1"

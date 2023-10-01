@@ -15,11 +15,12 @@ class ArticaleSeeder extends Seeder
      */
     public function run(): void
     {
+
         $articales = [
-            ['title' => "articale1", "image" => "imge1.png", 'content' => "aaaaaaaaa", "category_id" => Category::all()->unique()->random()->id],
-            ['title' => "articale2", "image" => "imge2.png", 'content' => "bbbbbbbbb", "category_id" => Category::all()->unique()->random()->id],
-            ['title' => "articale3", "image" => "imge3.png", 'content' => "ccccccccc", "category_id" => Category::all()->unique()->random()->id],
-            ['title' => "articale4", "image" => "imge4.png", 'content' => "ddddddddd", "category_id" => Category::all()->unique()->random()->id],
+            ['title' => "الوقاية من الأمراض", "image" => asset('/assets/images/articales/imge1.png'), 'content' => "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى", "category_id" => Category::all()->unique()->random()->id],
+            ['title' => "الوقاية من الأمراض", "image" => asset('/assets/images/articales/imge2.png'), 'content' => "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى", "category_id" => Category::all()->unique()->random()->id],
+            ['title' => "الوقاية من الأمراض", "image" => asset('/assets/images/articales/imge3.png'), 'content' => "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى", "category_id" => Category::all()->unique()->random()->id],
+            ['title' => "الوقاية من الأمراض", "image" => asset('/assets/images/articales/imge4.png'), 'content' => "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى", "category_id" => Category::all()->unique()->random()->id],
         ];
         DB::table('articales')->delete();
         foreach ($articales as $articale) {

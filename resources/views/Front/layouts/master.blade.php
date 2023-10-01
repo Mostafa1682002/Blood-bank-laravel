@@ -3,7 +3,7 @@
 
 @include('Front.layouts.head')
 
-<body class="create signin-account donation-requests who-are-us contact-us inside-request">
+<body class="create signin-account donation-requests who-are-us contact-us inside-request article-details">
     <!--Navbar-->
     @include('Front.layouts.navbar')
 

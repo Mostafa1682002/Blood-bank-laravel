@@ -22,6 +22,7 @@ class CreateClientsTable extends Migration
             $table->string('pin_code')->nullable();
             $table->timestamps();
             $table->string('api_token')->nullable();
+            $table->string('remember_token')->nullable();
         });
     }
 
