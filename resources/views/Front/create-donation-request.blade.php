@@ -74,13 +74,11 @@
 
                     <input type="text" name="phone" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="رقم الهاتف" value="{{ old('phone') }}">
-                    <textarea placeholder="ملاحظات" class="form-control" id="exampleFormControlTextarea1" rows="5" name="notes">{{ old('notes') }}</textarea>
-
-
                     <input type="number" name="latitude" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp" placeholder="المستشفي" value="4444">
+                        aria-describedby="emailHelp" placeholder="المستشفي" value="31.0097963">
                     <input type="number" name="longitude" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp" placeholder="المستشفي" value="4444">
+                        aria-describedby="emailHelp" placeholder="المستشفي" value="31.3009478">
+                    <textarea placeholder="ملاحظات" class="form-control" id="exampleFormControlTextarea1" rows="5" name="notes">{{ old('notes') }}</textarea>
 
                     <div class="create-btn">
                         <input type="submit" value="إنشاء">

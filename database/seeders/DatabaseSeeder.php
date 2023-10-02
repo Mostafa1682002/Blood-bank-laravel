@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ArticaleSeeder::class,
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
+            SettingsSeeder::class
         ]);
     }
 }

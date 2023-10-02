@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDonation;
+use App\Http\Requests\UpdateProfile;
 use App\Models\Articale;
 use App\Models\City;
 use App\Models\DonationRequest;
@@ -105,6 +106,24 @@ class MainController extends Controller
         return redirect()->back()->with('success', 'نم انشاء طلب التبرع بنجاح');
     }
 
+
+
+    public function profile()
+    {
+        $profile = auth('front')->user();
+        return view('Front.profile', compact('profile'));
+    }
+    public function updateProfile(UpdateProfile $request)
+    {
+        $client = $request->user();
+        $data = $request->all();
+        if ($request->has('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+        $client->update($data);
+        return redirect()->back()->with('success', 'تم تحديث البيانات بنجاح');
+    }
+
     public function insideRequest($id)
     {
         $donation = DonationRequest::findOrFail($id);
@@ -114,6 +133,11 @@ class MainController extends Controller
     public function aboutUs()
     {
         return view('Front.about-us');
+    }
+    public function favorite()
+    {
+        $articles = auth()->guard('front')->user()->articales;
+        return view('Front.favorite', compact('articles'));
     }
 
     public function contactUsForm()

@@ -35,7 +35,7 @@
                                         <i class="fas fa-home"></i>
                                         الرئيسية
                                     </a>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="{{ route('client.profile') }}">
                                         <i class="far fa-user"></i>
                                         معلوماتى
                                     </a>
@@ -43,7 +43,7 @@
                                         <i class="far fa-bell"></i>
                                         اعدادات الاشعارات
                                     </a>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="{{ route('client.favorite') }}">
                                         <i class="far fa-heart"></i>
                                         المفضلة
                                     </a>
@@ -88,7 +88,7 @@
     <div class="nav-bar">
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{{ route('client.index') }}">
                     <img src="{{ asset('assets/front/imgs/logo.png') }}" class="d-inline-block align-top"
                         alt="">
                 </a>

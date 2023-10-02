@@ -84,6 +84,13 @@
                         <br>
                         <div class="form-row">
                             <div class="col">
+                                <label for="i_link">لينك الواتس اب</label>
+                                <input type="text" name="w_link" class="form-control" value="{{ $setting->w_link }}">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-row">
+                            <div class="col">
                                 <label for="t_link">لينك تويتر</label>
                                 <input type="text" name="t_link" class="form-control" value="{{ $setting->t_link }}">
                             </div>

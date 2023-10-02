@@ -14,6 +14,11 @@ Route::group(['prefix' => "client", 'as' => 'client'], function () {
     //Login
     Route::get('/login-form', [AuthController::class, 'loginForm'])->name('.login_form');
     Route::post('/login', [AuthController::class, 'login'])->name('.login');
+    //Reset Password
+    Route::get('/reset-passwod-form', [AuthController::class, 'resetPasswodForm'])->name('.reset_passwod_form');
+    Route::post('/reset-passwod', [AuthController::class, 'resetPasswod'])->name('.reset_passwod');
+    Route::get('/new-passwod-form/{phone}', [AuthController::class, 'newPasswodForm'])->name('.new_passwod_form');
+    Route::post('/new-passwod', [AuthController::class, 'newPasswod'])->name('.new_passwod');
     //Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('.logout');
     //Home
@@ -36,5 +41,8 @@ Route::group(['prefix' => "client", 'as' => 'client'], function () {
         Route::get('/create-donation-request', [MainController::class, 'createDonationRequestForm'])->name('.create_donation_request_form');
         Route::post('/create-donation-request', [MainController::class, 'createDonationRequest'])->name('.create_donation_request');
         Route::get('/article-toggle/{article_id}', [MainController::class, 'articleToggle'])->name('.article_toggle');
+        Route::get('/profile', [MainController::class, 'profile'])->name('.profile');
+        Route::post('/update-profile', [MainController::class, 'updateProfile'])->name('.update_profile');
+        Route::get('/favorite', [MainController::class, 'favorite'])->name('.favorite');
     });
 });

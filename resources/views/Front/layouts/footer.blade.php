@@ -46,10 +46,10 @@
             <div class="row">
                 <div class="social col-md-4">
                     <div class="icons">
-                        <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="whatsapp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="{{ $settings->f_link }}" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="{{ $settings->i_link }}" class="instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="{{ $settings->t_link }}" class="twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="{{ $settings->w_link }}" class="whatsapp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 <div class="rights col-md-8">

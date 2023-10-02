@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreClient;
+use App\Mail\Resetpassword;
 use App\Models\Client;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -52,6 +54,51 @@ class AuthController extends Controller
         } else {
             return redirect()->back()->with('invalid-data', 'البيانات غير صحيحه')->withInput($request->only('phone'));
         }
+    }
+
+    public function resetPasswodForm()
+    {
+        return view('Front.reset-password');
+    }
+
+    public function resetPasswod(Request $request)
+    {
+        $request->validate([
+            'phone' => "required|regex:/01[0-2,5]{1}[0-9]{8}$/",
+        ]);
+        $client = Client::where('phone', $request->phone)->where('active', 1)->first();
+        if ($client) {
+            $code = rand(100000, 999999);
+            $client->update([
+                'pin_code' => $code
+            ]);
+            Mail::to($client)->send(new Resetpassword($code));
+            return redirect()->route('client.new_passwod_form', $request->phone);
+        }
+    }
+
+    public function newPasswodForm($phone)
+    {
+        return view('Front.new-password', compact('phone'));
+    }
+
+    public function newPasswod(Request $request)
+    {
+        $request->validate([
+            'phone' => "required|regex:/01[0-2,5]{1}[0-9]{8}$/",
+            'pin_code' => "required|integer",
+            'password' => "required|confirmed"
+        ]);
+
+        $client = Client::where('phone', $request->phone)->where('pin_code', $request->pin_code)->first();
+        if ($client) {
+            $client->update([
+                'password' => bcrypt($request->password)
+            ]);
+            auth()->guard('front')->login($client);
+            return redirect()->route('client.index');
+        }
+        return redirect()->back()->with('invalid-data', 'البيانات غير صحيحه');
     }
 
 
