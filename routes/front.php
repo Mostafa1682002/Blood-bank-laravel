@@ -33,7 +33,7 @@ Route::group(['prefix' => "client", 'as' => 'client'], function () {
     Route::get('/get-cities/{id}', [MainController::class, 'getCity'])->name('.get_cities');
     //About Us
     Route::get('/about-us', [MainController::class, 'aboutUs'])->name('.about_us');
-    //Who Are Us
+    //Contact Us Form
     Route::get('/contact-us', [MainController::class, 'contactUsForm'])->name('.contact_us_form');
 
 
@@ -44,5 +44,6 @@ Route::group(['prefix' => "client", 'as' => 'client'], function () {
         Route::get('/profile', [MainController::class, 'profile'])->name('.profile');
         Route::post('/update-profile', [MainController::class, 'updateProfile'])->name('.update_profile');
         Route::get('/favorite', [MainController::class, 'favorite'])->name('.favorite');
+        Route::post('/contact-us', [MainController::class, 'contactUs'])->name('.contact_us');
     });
 });

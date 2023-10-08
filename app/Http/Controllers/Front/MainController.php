@@ -73,6 +73,7 @@ class MainController extends Controller
             ->paginate(10);
         return view('Front.donation-requests', compact('donations'));
     }
+
     public function createDonationRequestForm()
     {
         return view('Front.create-donation-request');
@@ -134,6 +135,7 @@ class MainController extends Controller
     {
         return view('Front.about-us');
     }
+
     public function favorite()
     {
         $articles = auth()->guard('front')->user()->articales;
@@ -143,6 +145,16 @@ class MainController extends Controller
     public function contactUsForm()
     {
         return view('Front.contact-us');
+    }
+
+    public function contactUs(Request $request)
+    {
+        $request->validate([
+            'title' => "required",
+            'message' => "required"
+        ]);
+        $request->user()->contacts()->create($request->all());
+        return redirect()->back()->with('success', 'تم الارسال بنجاح');
     }
 
     public function getCity($governorate_id)

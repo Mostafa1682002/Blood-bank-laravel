@@ -4,8 +4,8 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6">
                     <div class="language">
-                        <a href="index.html" class="ar active">عربى</a>
-                        <a href="index-ltr.html" class="en inactive">EN</a>
+                        <a href="#" class="ar active">عربى</a>
+                        <a href="#" class="en inactive">EN</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">

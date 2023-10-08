@@ -14,6 +14,9 @@
                     </ol>
                 </nav>
             </div>
+            @if (session('success'))
+                <p class="alert alert-success">{{ session('success') }}</p>
+            @endif
             <div class="row methods">
                 <div class="col-md-6">
                     <div class="call">
@@ -35,22 +38,27 @@
                                 <h4>تواصل معنا</h4>
                                 <div class="icons" dir="ltr">
                                     <div class="out-icon">
-                                        <a href="#"><img src="{{ asset('assets/front/imgs/001-facebook.svg') }}"></a>
+                                        <a href="{{ $settings->f_link }}"><img
+                                                src="{{ asset('assets/front/imgs/001-facebook.svg') }}"></a>
                                     </div>
                                     <div class="out-icon">
-                                        <a href="#"><img src="{{ asset('assets/front/imgs/002-twitter.svg') }}"></a>
+                                        <a href="{{ $settings->t_link }}"><img
+                                                src="{{ asset('assets/front/imgs/002-twitter.svg') }}"></a>
                                     </div>
                                     <div class="out-icon">
-                                        <a href="#"><img src="{{ asset('assets/front/imgs/003-youtube.svg') }}"></a>
+                                        <a href="{{ $settings->y_link }}"><img
+                                                src="{{ asset('assets/front/imgs/003-youtube.svg') }}"></a>
                                     </div>
                                     <div class="out-icon">
-                                        <a href="#"><img src="{{ asset('assets/front/imgs/004-instagram.svg') }}"></a>
+                                        <a href="{{ $settings->i_link }}"><img
+                                                src="{{ asset('assets/front/imgs/004-instagram.svg') }}"></a>
                                     </div>
                                     <div class="out-icon">
-                                        <a href="#"><img src="{{ asset('assets/front/imgs/005-whatsapp.svg') }}"></a>
+                                        <a href="{{ $settings->w_link }}"><img
+                                                src="{{ asset('assets/front/imgs/005-whatsapp.svg') }}"></a>
                                     </div>
                                     <div class="out-icon">
-                                        <a href="#"><img
+                                        <a href="{{ $settings->g_link }}"><img
                                                 src="{{ asset('assets/front/imgs/006-google-plus.svg') }}"></a>
                                     </div>
                                 </div>
@@ -64,17 +72,23 @@
                             <h4>تواصل معنا</h4>
                         </div>
                         <div class="fields">
-                            <form method="POST">
+                            <form action="{{ route('client.contact_us') }}" method="POST">
                                 @csrf
-                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="الإسم"
+                                {{-- <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="الإسم"
                                     name="name">
                                 <input type="email" class="form-control" id="exampleFormControlInput1"
                                     placeholder="البريد الإلكترونى" name="email">
                                 <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="الجوال" name="phone">
+                                    placeholder="الجوال" name="phone"> --}}
                                 <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="عنوان الرسالة" name="title">
-                                <textarea placeholder="نص الرسالة" class="form-control" id="exampleFormControlTextarea1" rows="3" name="message"></textarea>
+                                    placeholder="عنوان الرسالة" name="title" value="{{ old('title') }}">
+                                @error('title')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+                                <textarea placeholder="نص الرسالة" class="form-control" id="exampleFormControlTextarea1" rows="3" name="message">{{ old('message') }}</textarea>
+                                @error('message')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
                                 <button type="submit">ارسال</button>
                             </form>
                         </div>

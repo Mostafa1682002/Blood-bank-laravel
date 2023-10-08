@@ -32,53 +32,83 @@
                     </button>
                     <p class="text-danger text-center"> لم يتم حفظ البيانات</p>
                 </div>
-                @foreach ($errors->all() as $error)
-                    <p class="text-danger text-center">{{ $error }}</p>
-                @endforeach
+                {{-- @foreach ($errors->all() as $error)
+                    <p class="alert alert-danger">{{ $error }}</p>
+                @endforeach --}}
             @endif
             <div class="account-form">
                 <form action="{{ route('client.create_donation_request') }}" method="POST">
                     @csrf
                     <input type="text" name="name" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="الإسم" value="{{ old('name') }}">
-
+                    @error('name')
+                        <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
                     <input type="number" name="age" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="العمر" value="{{ old('age') }}">
-
+                    @error('age')
+                        <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
                     <select class="form-control" id="blood_type_id" name="blood_type_id">
                         <option selected disabled hidden value="">فصيلة الدم</option>
                         @foreach ($blood_types->all() as $blood_type)
                             <option value="{{ $blood_type->id }}">{{ $blood_type->name }}</option>
                         @endforeach
                     </select>
-
+                    @error('blood_type_id')
+                        <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
                     <input type="number" name="num_bags" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="عدد الاكياس" value="{{ old('num_bags') }}">
-
+                    @error('num_bags')
+                        <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
                     <select class="form-control" id="governorates" name="governorate_id">
                         <option selected disabled hidden value="">المحافظة</option>
                         @foreach ($governorates->all() as $governorate)
                             <option value="{{ $governorate->id }}">{{ $governorate->name }}</option>
                         @endforeach
                     </select>
+                    @error('governorate_id')
+                        <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
 
                     <select class="form-control" id="city_id" name="city_id">
                         <option selected disabled hidden value="">المدينة</option>
                     </select>
+                    @error('city_id')
+                        <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
 
                     <input type="text" name="hospital" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="المستشفي" value="{{ old('hospital') }}">
+                    @error('hospital')
+                        <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
 
                     <input type="text" name="address_hospital" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="عنوان المستشفي" value="{{ old('address_hospital') }}">
+                    @error('address_hospital')
+                        <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
 
                     <input type="text" name="phone" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="رقم الهاتف" value="{{ old('phone') }}">
-                    <input type="number" name="latitude" class="form-control" id="exampleInputEmail1"
+                    @error('phone')
+                        <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
+                    <input type="number" step="any" name="latitude" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="المستشفي" value="31.0097963">
-                    <input type="number" name="longitude" class="form-control" id="exampleInputEmail1"
+                    @error('latitude')
+                        <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
+                    <input type="number" step="any" name="longitude" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="المستشفي" value="31.3009478">
-                    <textarea placeholder="ملاحظات" class="form-control" id="exampleFormControlTextarea1" rows="5" name="notes">{{ old('notes') }}</textarea>
+                    @error('longitude')
+                        <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
+                    <textarea placeholder="ملاحظات" class="form-control" id="exampleFormControlTextarea1" rows="5"
+                        name="notes">{{ old('notes') }}</textarea>
 
                     <div class="create-btn">
                         <input type="submit" value="إنشاء">

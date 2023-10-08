@@ -31,16 +31,22 @@
                     <div class="form-group">
                         <input type="text" class="form-control" name="phone" id="exampleInputEmail1"
                             aria-describedby="emailHelp" placeholder="الجوال" value="{{ old('phone') }}">
+                        @error('phone')
+                            <p class="alert alert-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <input type="password" name="password" class="form-control" id="exampleInputPassword1"
                             placeholder="كلمة المرور">
+                        @error('password')
+                            <p class="alert alert-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="row options">
                         <div class="col-md-6 remember">
                             <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" id="exampleCheck1" name="remember_me"
-                                    value="1">
+                                    value="1" {{ old('remember_me') ? 'checked' : '' }}>
                                 <label class="form-check-label" for="exampleCheck1">تذكرنى</label>
                             </div>
                         </div>

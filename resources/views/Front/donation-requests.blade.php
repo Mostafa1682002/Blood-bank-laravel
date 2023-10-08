@@ -63,19 +63,23 @@
                         </div>
                     </form>
                     <div class="patients">
-                        @foreach ($donations as $donation)
-                            <div class="details">
-                                <div class="blood-type">
-                                    <h2 dir="ltr">{{ $donation->bloodType->name }}</h2>
+                        @if (count($donations))
+                            @foreach ($donations as $donation)
+                                <div class="details">
+                                    <div class="blood-type">
+                                        <h2 dir="ltr">{{ $donation->bloodType->name }}</h2>
+                                    </div>
+                                    <ul>
+                                        <li><span>اسم الحالة : </span>{{ $donation->name }}</li>
+                                        <li><span>مستشفى : </span>{{ $donation->hospital }}</li>
+                                        <li><span>المدينة : </span> {{ $donation->city->name }}</li>
+                                    </ul>
+                                    <a href="{{ route('client.inside_request', $donation->id) }}">التفاصيل</a>
                                 </div>
-                                <ul>
-                                    <li><span>اسم الحالة : </span>{{ $donation->name }}</li>
-                                    <li><span>مستشفى : </span>{{ $donation->hospital }}</li>
-                                    <li><span>المدينة : </span> {{ $donation->city->name }}</li>
-                                </ul>
-                                <a href="{{ route('client.inside_request', $donation->id) }}">التفاصيل</a>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @else
+                            <p class="alert alert-danger text-center">لايوجد طلبات تبرع</p>
+                        @endif
                     </div>
                     <div class="pages">
                         <nav aria-label="Page navigation example" dir="ltr">

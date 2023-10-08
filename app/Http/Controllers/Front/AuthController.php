@@ -52,7 +52,7 @@ class AuthController extends Controller
         if (auth()->guard('front')->attempt($request->only('phone', 'password'), $remember_me)) {
             return redirect()->route('client.index');
         } else {
-            return redirect()->back()->with('invalid-data', 'البيانات غير صحيحه')->withInput($request->only('phone'));
+            return redirect()->back()->with('invalid-data', 'البيانات غير صحيحه')->withInput($request->only('phone', 'remember_me'));
         }
     }
 
