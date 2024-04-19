@@ -5,9 +5,9 @@ use App\Http\Controllers\Front\MainController;
 use Illuminate\Support\Facades\Route;
 
 
+// 'prefix' => "client",
 
-
-Route::group(['prefix' => "client", 'as' => 'client'], function () {
+Route::group(['as' => 'client'], function () {
     //Create Account
     Route::get('/create-account', [AuthController::class, 'createAccountForm'])->name('.create_account');
     Route::post('/register', [AuthController::class, 'register'])->name('.register');
@@ -45,5 +45,11 @@ Route::group(['prefix' => "client", 'as' => 'client'], function () {
         Route::post('/update-profile', [MainController::class, 'updateProfile'])->name('.update_profile');
         Route::get('/favorite', [MainController::class, 'favorite'])->name('.favorite');
         Route::post('/contact-us', [MainController::class, 'contactUs'])->name('.contact_us');
+    });
+
+
+
+    Route::fallback(function () {
+        return redirect()->route('client.index');
     });
 });

@@ -29,7 +29,6 @@
                 </div>
                 <div class="content">
                     <form class="row filter" action="{{ route('client.donation_requests') }}" method="GET">
-                        @csrf
                         <div class="col-md-5 blood">
                             <div class="form-group">
                                 <div class="inside-select">

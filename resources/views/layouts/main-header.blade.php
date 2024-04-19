@@ -46,19 +46,12 @@
                             </div>
                         </div>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="text-secondary ti-reload"></i>Activity</a>
-                        <a class="dropdown-item" href="#"><i class="text-success ti-email"></i>Messages</a>
-                        <a class="dropdown-item" href="#"><i class="text-warning ti-user"></i>Profile</a>
-                        <a class="dropdown-item" href="#"><i class="text-dark ti-layers-alt"></i>Projects <span
-                                class="badge badge-info">6</span> </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="text-info ti-settings"></i>Settings</a>
                         <form action="{{ route('logout') }}" method="POST" id="sub">
                             @csrf
                         </form>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.querySelector('#sub').submit()"><i
-                                class="text-danger ti-unlock"></i>Logout</a>
+                                class="text-danger ti-unlock"></i>تسجيل الخروج</a>
                     </div>
                 </li>
             </ul>

@@ -25,12 +25,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/admin', function () {
     return view('auth.login');
 })->middleware('guest');
 
 Auth::routes(['register' => false]);
-
+// 'prefix' => "admin",
 Route::group(['middleware' => ["auth", 'auto_check_premission']], function () {
     //Home
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -65,4 +65,10 @@ Route::group(['middleware' => ["auth", 'auto_check_premission']], function () {
     Route::resource('users', UserController::class);
     //Roles
     Route::resource('roles', RoleController::class);
+
+
+
+    Route::fallback(function () {
+        return redirect()->route('home');
+    });
 });
